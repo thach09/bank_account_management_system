@@ -1,31 +1,46 @@
 package bank.model;
 
+import java.util.Date;
+
 public class FixedDepositAccount extends Account {
     private int termMonths;
-    private int monthsElapsed;
     private double interestRate;
+    private Date maturityDate;
+    private double earlyWithdrawalPenaltyRate;
 
-    public FixedDepositAccount(String accountNumber, double balance, Customer customer, int termMonths, double interestRate) {
-        super(accountNumber, balance, customer);
+    public FixedDepositAccount(String accountNumber, Customer owner, long initialDeposit, int termMonths, double interestRate, double earlyWithdrawalPenaltyRate) {
+        super(accountNumber, owner, initialDeposit);
         this.termMonths = termMonths;
         this.interestRate = interestRate;
-        this.monthsElapsed = 0;
+        this.earlyWithdrawalPenaltyRate = earlyWithdrawalPenaltyRate;
+        this.maturityDate = new Date();
+    }
+
+    @Override
+    public void withdraw(long amount) {
+        // TODO: check isMatured() and handle withdrawal / penalty logic
+    }
+
+    @Override
+    public long getMinAllowedBalance() {
+        // TODO: return minimum allowed balance
+        return 0;
+    }
+
+    @Override
+    public long calculateMonthlyAdjustment() {
+        // TODO: calculate interest or adjustment for fixed deposit
+        return 0;
+    }
+
+    @Override
+    public String getAccountType() {
+        // TODO: return account type name
+        return "";
     }
 
     public boolean isMatured() {
-        return monthsElapsed >= termMonths;
-    }
-
-    @Override
-    public void withdraw(double amount) {
-        // TODO: check isMatured()
-        // If matured -> allow withdraw and deduct balance
-        // If not matured -> enforce early withdrawal rule according to UML contract
-    }
-
-    @Override
-    public void applyMonthlyAdjustment() {
-        // TODO: increment monthsElapsed++
-        // If matured -> calculate and apply interest according to UML contract
+        // TODO: check if current date has reached maturityDate
+        return false;
     }
 }

@@ -5,43 +5,53 @@ import java.util.List;
 
 public class Customer {
     private String customerId;
-    private String fullName;
-    private String phoneNumber;
-    private List<String> accountNumbers;
+    private String name;
+    private String phone;
+    private String email;
+    private List<Account> accounts;
 
-    public Customer(String customerId, String fullName, String phoneNumber) {
+    public Customer(String customerId, String name, String phone, String email) {
         this.customerId = customerId;
-        this.fullName = fullName;
-        this.phoneNumber = phoneNumber;
-        this.accountNumbers = new ArrayList<String>();
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        this.accounts = new ArrayList<Account>();
     }
 
     public String getCustomerId() {
         return customerId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getName() {
+        return name;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public List<String> getAccountNumbers() {
-        return accountNumbers;
+    public String getEmail() {
+        return email;
     }
 
-    public void addAccountNumber(String accountNumber) {
-        // TODO: add accountNumber to accountNumbers list
-        this.accountNumbers.add(accountNumber);
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void addAccount(Account account) {
+        // TODO: add account to customer's account list
+        this.accounts.add(account);
+    }
+
+    public List<Account> getAccounts() {
+        return accounts;
     }
 }

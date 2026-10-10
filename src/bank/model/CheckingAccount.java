@@ -1,31 +1,30 @@
 package bank.model;
 
 public class CheckingAccount extends Account {
-    private double overdraftLimit;
-    private double monthlyFee;
+    private long overdraftLimit;
+    private long monthlyFee;
 
-    public CheckingAccount(String accountNumber, double balance, Customer customer, double overdraftLimit, double monthlyFee) {
-        super(accountNumber, balance, customer);
+    public CheckingAccount(String accountNumber, Customer owner, long initialDeposit, long overdraftLimit, long monthlyFee) {
+        super(accountNumber, owner, initialDeposit);
         this.overdraftLimit = overdraftLimit;
         this.monthlyFee = monthlyFee;
     }
 
-    public double getOverdraftLimit() {
-        return overdraftLimit;
-    }
-
-    public double getMonthlyFee() {
-        return monthlyFee;
+    @Override
+    public long getMinAllowedBalance() {
+        // TODO: return -overdraftLimit
+        return 0;
     }
 
     @Override
-    public void withdraw(double amount) {
-        // TODO: validate amount > 0 and balance - amount >= -overdraftLimit
-        // -> deduct balance -> record transaction
+    public long calculateMonthlyAdjustment() {
+        // TODO: return monthly fee adjustment
+        return 0;
     }
 
     @Override
-    public void applyMonthlyAdjustment() {
-        // TODO: deduct monthlyFee from balance -> record transaction
+    public String getAccountType() {
+        // TODO: return account type name
+        return "";
     }
 }

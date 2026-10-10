@@ -2,29 +2,29 @@ package bank.model;
 
 public class SavingsAccount extends Account {
     private double interestRate;
+    private long minBalance;
 
-    public SavingsAccount(String accountNumber, double balance, Customer customer, double interestRate) {
-        super(accountNumber, balance, customer);
+    public SavingsAccount(String accountNumber, Customer owner, long initialDeposit, double interestRate, long minBalance) {
+        super(accountNumber, owner, initialDeposit);
         this.interestRate = interestRate;
-    }
-
-    public double getInterestRate() {
-        return interestRate;
-    }
-
-    public void setInterestRate(double interestRate) {
-        this.interestRate = interestRate;
+        this.minBalance = minBalance;
     }
 
     @Override
-    public void withdraw(double amount) {
-        // TODO: validate amount > 0 and balance - amount >= minBalance (or >= 0)
-        // -> deduct balance -> record transaction
+    public long getMinAllowedBalance() {
+        // TODO: return minBalance
+        return 0;
     }
 
     @Override
-    public void applyMonthlyAdjustment() {
-        // TODO: calculate monthly interest (balance * interestRate / 12)
-        // -> add to balance -> record transaction
+    public long calculateMonthlyAdjustment() {
+        // TODO: calculate monthly interest based on interestRate
+        return 0;
+    }
+
+    @Override
+    public String getAccountType() {
+        // TODO: return account type name
+        return "";
     }
 }

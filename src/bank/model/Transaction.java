@@ -1,51 +1,50 @@
 package bank.model;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 public class Transaction {
     private String transactionId;
-    private LocalDateTime timestamp;
     private TransactionType type;
-    private double amount;
-    private double balanceAfter;
-    private String description;
+    private int amount;
+    private Date timestamp;
+    private int balanceAfter;
+    private String note;
 
-    public Transaction(TransactionType type, double amount, double balanceAfter, String description) {
-        // TODO: generate unique transactionId, set current timestamp, set fields
+    public Transaction(TransactionType type, int amount, int balanceAfter, String note) {
         this.type = type;
         this.amount = amount;
         this.balanceAfter = balanceAfter;
-        this.description = description;
-        this.timestamp = LocalDateTime.now();
+        this.note = note;
+        this.timestamp = new Date();
     }
 
     public String getTransactionId() {
         return transactionId;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
     public TransactionType getType() {
         return type;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public double getBalanceAfter() {
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public int getBalanceAfter() {
         return balanceAfter;
     }
 
-    public String getDescription() {
-        return description;
+    public String getNote() {
+        return note;
     }
 
     @Override
     public String toString() {
-        // TODO: format transaction details for console printing
+        // TODO: format transaction details
         return "";
     }
 }
