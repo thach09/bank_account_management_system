@@ -5,18 +5,18 @@ import java.util.Date;
 import java.util.List;
 
 public abstract class Account {
-    private String accountCode;
+    private String accountNumber;
     private long balance;
     private Date openDate;
     private Customer owner;
-    private List<Transaction> transaction;
+    private List<Transaction> transactions;
 
-    public Account(String accountCode, Customer owner, long initialDeposit) {
-        this.accountCode = accountCode;
+    public Account(String accountNumber, Customer owner, long initialDeposit) {
+        this.accountNumber = accountNumber;
         this.owner = owner;
         this.balance = initialDeposit;
         this.openDate = new Date();
-        this.transaction = new ArrayList<Transaction>();
+        this.transactions = new ArrayList<Transaction>();
     }
 
     public void deposit(long amount) {
@@ -37,12 +37,12 @@ public abstract class Account {
         // TODO: calculate monthly adjustment and apply to balance
     }
 
-    private void validateAmount(long amount) {
+    protected void validateAmount(long amount) {
         // TODO: validate amount > 0
     }
 
-    private void addTransaction(TransactionType type, long amount, String note) {
-        // TODO: record transaction to transaction list
+    protected void addTransaction(TransactionType type, long amount, String note) {
+        // TODO: record transaction in the transactions list
     }
 
     public long getBalance() {
@@ -50,7 +50,7 @@ public abstract class Account {
     }
 
     public String getAccountNumber() {
-        return accountCode;
+        return accountNumber;
     }
 
     public Customer getOwner() {
@@ -58,6 +58,6 @@ public abstract class Account {
     }
 
     public List<Transaction> getTransactions() {
-        return transaction;
+        return transactions;
     }
 }

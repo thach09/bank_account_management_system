@@ -18,6 +18,10 @@ public class Bank {
         this.customers = new HashMap<String, Customer>();
     }
 
+    public void addCustomer(Customer customer) {
+        // TODO: register customer in the customers map
+    }
+
     public void openAccount(String customerID, Account account) {
         // TODO: find customer by customerID -> store account in accounts -> link to customer
     }
@@ -27,15 +31,15 @@ public class Bank {
         return accounts.get(accountNumber);
     }
 
-    public void deposit(String accountNumber, double amount) {
+    public void deposit(String accountNumber, long amount) {
         // TODO: find account -> validate amount -> delegate deposit
     }
 
-    public void withdraw(String accountNumber, double amount) {
+    public void withdraw(String accountNumber, long amount) {
         // TODO: find account -> delegate withdraw
     }
 
-    public void transfer(String fromAcc, String toAcc, double amount) {
+    public void transfer(String fromAcc, String toAcc, long amount) {
         // TODO: validate before modify -> withdraw from fromAcc -> deposit to toAcc
     }
 
@@ -53,11 +57,4 @@ public class Bank {
         return new ArrayList<Account>();
     }
 
-    public void saveToFile(String filePath) {
-        // TODO: (Lower priority / stretch goal) save accounts and customers to file
-    }
-
-    public void loadFromFile(String filePath) {
-        // TODO: (Lower priority / stretch goal) load accounts and customers from file
-    }
 }

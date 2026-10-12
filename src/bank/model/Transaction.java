@@ -4,13 +4,15 @@ import java.util.Date;
 
 public class Transaction {
     private String transactionId;
+    private static int nextId;
     private TransactionType type;
-    private int amount;
+    private long amount;
     private Date timestamp;
-    private int balanceAfter;
+    private long balanceAfter;
     private String note;
 
-    public Transaction(TransactionType type, int amount, int balanceAfter, String note) {
+    public Transaction(TransactionType type, long amount, long balanceAfter, String note) {
+        // TODO: generate transactionId using nextId
         this.type = type;
         this.amount = amount;
         this.balanceAfter = balanceAfter;
@@ -26,7 +28,7 @@ public class Transaction {
         return type;
     }
 
-    public int getAmount() {
+    public long getAmount() {
         return amount;
     }
 
@@ -34,7 +36,7 @@ public class Transaction {
         return timestamp;
     }
 
-    public int getBalanceAfter() {
+    public long getBalanceAfter() {
         return balanceAfter;
     }
 

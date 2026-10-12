@@ -14,12 +14,16 @@ public class FixedDepositAccount extends Account {
         this.interestRate = interestRate;
         this.earlyWithdrawalPenaltyRate = earlyWithdrawalPenaltyRate;
         this.maturityDate = new Date();
+        // TODO: calculate maturityDate from the account's open date and termMonths;
+        // the current date above is only a placeholder.
     }
 
     @Override
     public void withdraw(long amount) {
         // TODO: check isMatured() and handle withdrawal / penalty logic
     }
+
+    
 
     @Override
     public long getMinAllowedBalance() {
