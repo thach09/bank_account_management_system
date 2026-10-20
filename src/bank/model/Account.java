@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public abstract class Account {
-    private String accountNumber;
-    private long balance;
-    private Date openDate;
-    private Customer owner;
-    private List<Transaction> transactions;
+public abstract class Account implements MonthlyAdjustable {
+    protected String accountNumber;
+    protected long balance;
+    protected Date openDate;
+    protected Customer owner;
+    protected List<Transaction> transactions;
 
     public Account(String accountNumber, Customer owner, long initialDeposit) {
         this.accountNumber = accountNumber;
@@ -35,6 +35,16 @@ public abstract class Account {
 
     public void applyMonthlyAdjustment() {
         // TODO: calculate monthly adjustment and apply to balance
+    }
+
+    @Override
+    public void applyMonthlyAdjustable() {
+        applyMonthlyAdjustment();
+    }
+
+    @Override
+    public long calculateMonthlyAdjustable() {
+        return calculateMonthlyAdjustment();
     }
 
     protected void validateAmount(long amount) {
