@@ -10,16 +10,28 @@ public class SavingsAccount extends Account {
         this.minBalance = minBalance;
     }
 
+    /*
+    Example: Trong tai khoan khach hang
+    So du hien tai: 2.000.000đ
+    So du toi thieu: 50.000đ
+     */
     @Override
     public long getMinAllowedBalance() {
         // TODO: return minBalance
-        return 0;
+        return minBalance;
     }
 
+    /*
+    Cong Thuc:
+    Lãi tháng = Math.round(balance * interestRate / 12)
+    Example:
+    Balance: 12.000.000đ
+    interestRate = 0.06 (6% per year)
+     */
     @Override
     public long calculateMonthlyAdjustment() {
         // TODO: calculate monthly interest based on interestRate
-        return 0;
+        return Math.round(balance * interestRate / 12);
     }
 
     @Override
