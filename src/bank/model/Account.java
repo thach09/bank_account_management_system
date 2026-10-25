@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public abstract class Account implements MonthlyAdjustable {
+public abstract class Account {
     protected String accountNumber;
     protected long balance;
     protected Date openDate;
@@ -35,16 +35,6 @@ public abstract class Account implements MonthlyAdjustable {
 
     public void applyMonthlyAdjustment() {
         // TODO: calculate monthly adjustment and apply to balance
-    }
-
-    @Override
-    public void applyMonthlyAdjustable() {
-        applyMonthlyAdjustment();
-    }
-
-    @Override
-    public long calculateMonthlyAdjustable() {
-        return calculateMonthlyAdjustment();
     }
 
     protected void validateAmount(long amount) {
