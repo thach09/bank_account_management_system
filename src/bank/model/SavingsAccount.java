@@ -31,12 +31,12 @@ public class SavingsAccount extends Account {
     @Override
     public long calculateMonthlyAdjustment() {
         // TODO: calculate monthly interest based on interestRate
-        return Math.round(balance * interestRate / 12);
+        return Math.round(getBalance() * interestRate / 12);
     }
 
     @Override
     public String getAccountType() {
         // TODO: return account type name
-        return "";
+        return "Savings";
     }
 }

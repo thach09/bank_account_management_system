@@ -18,7 +18,7 @@ public class CheckingAccount extends Account {
 
     @Override
     public long calculateMonthlyAdjustment() {
-        // TODO: return monthly fee adjustment
+        // TODO: return -monthly fee
         return 0;
     }
 

@@ -19,11 +19,9 @@ public class FixedDepositAccount extends Account {
     }
 
     @Override
-    public void withdraw(long amount) {
+    public void withdraw(long amount, TransactionType type, String note) {
         // TODO: check isMatured() and handle withdrawal / penalty logic
     }
-
-    
 
     @Override
     public long getMinAllowedBalance() {

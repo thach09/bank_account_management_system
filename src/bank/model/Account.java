@@ -5,11 +5,11 @@ import java.util.Date;
 import java.util.List;
 
 public abstract class Account {
-    protected String accountNumber;
-    protected long balance;
-    protected Date openDate;
-    protected Customer owner;
-    protected List<Transaction> transactions;
+    private String accountNumber;
+    private long balance;
+    private Date openDate;
+    private Customer owner;
+    private List<Transaction> transactions;
 
     public Account(String accountNumber, Customer owner, long initialDeposit) {
         this.accountNumber = accountNumber;
@@ -19,11 +19,11 @@ public abstract class Account {
         this.transactions = new ArrayList<Transaction>();
     }
 
-    public void deposit(long amount) {
+    public void deposit(long amount, TransactionType type, String note) {
         // TODO: validate amount and update balance
     }
 
-    public void withdraw(long amount) {
+    public void withdraw(long amount, TransactionType type, String note) {
         // TODO: validate amount and deduct from balance
     }
 
@@ -55,6 +55,10 @@ public abstract class Account {
 
     public Customer getOwner() {
         return owner;
+    }
+
+    public Date getOpenDate() {
+        return openDate;
     }
 
     public List<Transaction> getTransactions() {
