@@ -10,19 +10,21 @@ public class SavingsAccount extends Account {
         this.minBalance = minBalance;
     }
 
+    // Trả về số dư tối thiểu bắt buộc trong tài khoản
     /*
-    Example: Trong tai khoan khach hang
-    So du hien tai: 2.000.000đ
-    So du toi thieu: 50.000đ
+    Example: Trong tài khoản của customer:
+        Số dư hiện tại: 2.000.000đ
+        Số dư tối thiểu: 50.000đ
+        ==> Không được rút > 1.950.000đ
      */
     @Override
     public long getMinAllowedBalance() {
-        // TODO: return minBalance
         return minBalance;
     }
-
+    
+    // Tính tổng lãi nhận được hàng tháng
     /*
-    Cong Thuc:
+    Công Thức:
     Lãi tháng = Math.round(balance * interestRate / 12)
     Example:
     Balance: 12.000.000đ
@@ -30,13 +32,16 @@ public class SavingsAccount extends Account {
      */
     @Override
     public long calculateMonthlyAdjustment() {
-        // TODO: calculate monthly interest based on interestRate
         return Math.round(getBalance() * interestRate / 12);
     }
-
+    
+    // Trả về loại tài khoản
+    /*
+    Example: SavingsAccount
+    ==> Return "Savings"
+     */
     @Override
     public String getAccountType() {
-        // TODO: return account type name
         return "Savings";
     }
 }
