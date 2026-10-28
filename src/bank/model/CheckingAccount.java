@@ -10,21 +10,35 @@ public class CheckingAccount extends Account {
         this.monthlyFee = monthlyFee;
     }
 
+    // Trả về số dư tối thiểu
+    /*
+    Example: 
+    overdraftLimit: 50.000đ
+    ==> Trả về -50.000đ
+     */
     @Override
-    public long getMinAllowedBalance() {
-        // TODO: return -overdraftLimit
-        return 0;
+    public long getMinAllowedBalance() {   
+        return -overdraftLimit;
     }
 
+    // Tính phí hàng tháng
+    /*
+    Example: 
+    monthlyFee: 50.000đ
+    ==> Trả về -50.000đ
+     */
     @Override
     public long calculateMonthlyAdjustment() {
-        // TODO: return -monthly fee
-        return 0;
+        return -monthlyFee;
     }
 
+    // Trả về loại tài khoản
+    /*
+    Example: CheckingAccount
+    ==> Return "Checking"
+     */
     @Override
     public String getAccountType() {
-        // TODO: return account type name
-        return "";
+        return "Checking";
     }
 }
