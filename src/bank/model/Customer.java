@@ -2,6 +2,7 @@ package bank.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.until.Collection;
 
 public class Customer {
     private String customerId;
@@ -48,10 +49,16 @@ public class Customer {
 
     public void addAccount(Account account) {
         // TODO: add account to customer's account list
+        if (account == null || account.containKeys(getAccountNumber)){
+            return;
+        }
         this.accounts.add(account);
     }
 
     public List<Account> getAccounts() {
-        return accounts;
+
+        //return accounts;
+        return Collections.unmodifiableList(accounts);
+        
     }
 }
