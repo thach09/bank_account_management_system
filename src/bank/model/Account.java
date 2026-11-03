@@ -60,9 +60,9 @@ public abstract class Account {
         if (adjustment > 0) {
             balance += adjustment;
             addTransaction(TransactionType.INTEREST, adjustment, "Monthly interest");
-            
+
         } else if (adjustment < 0) {
-            balance -= adjustment;
+            balance += adjustment;
             addTransaction(TransactionType.FEE, - adjustment, "Monthly fee");
         }
     }
