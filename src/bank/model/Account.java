@@ -19,12 +19,33 @@ public abstract class Account {
         this.transactions = new ArrayList<Transaction>();
     }
 
+    // Nạp tiền vào tài khoản
+    /*
+    Example: Số dư ban đầu: 1.000.000đ
+    Nạp 500.000đ
+    Số dư cuối: 1.500.000đ
+     */
     public void deposit(long amount, TransactionType type, String note) {
-        // TODO: validate amount and update balance
+        validateAmount(amount);
+        balance += amount;
+        addTransaction(type, amount, note);
+        
     }
 
+    // Rút tiền khỏi tài khoản
+    /*
+    Example: Số dư ban đầu: 1.000.000đ
+    Rút 500.000đ
+    Số dư cuối: 500.000đ
+    Tài khoản sau khi rút phải còn tối thiểu 50.000đ
+    */
     public void withdraw(long amount, TransactionType type, String note) {
-        // TODO: validate amount and deduct from balance
+        validateAmount(amount);
+        if (balance - amount < getMinAllowedBalance()) {
+            throw new IllegalArgumentException("Insufficient funds");
+        }
+        balance -= amount;
+        addTransaction(type, amount, note);
     }
 
     public abstract long getMinAllowedBalance();
@@ -33,17 +54,42 @@ public abstract class Account {
 
     public abstract String getAccountType();
 
+    // Cộng lãi hoặc trừ phí vào số dư tài khoản
     public void applyMonthlyAdjustment() {
-        // TODO: calculate monthly adjustment and apply to balance
+        long adjustment = calculateMonthlyAdjustment();
+        if (adjustment > 0) {
+            balance += adjustment;
+            addTransaction(TransactionType.INTEREST, adjustment, "Monthly interest");
+            
+        } else if (adjustment < 0) {
+            balance -= adjustment;
+            addTransaction(TransactionType.FEE, - adjustment, "Monthly fee");
+        }
     }
 
+    // Check số tiền giao dịch có hợp lệ hay không
+    // true if amount > 0, false otherwise
     protected void validateAmount(long amount) {
-        // TODO: validate amount > 0
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Invalid amount"); // 
+        }
     }
 
+    // Ghi nhận lịch sử giao dịch
+    /*
+    Example: Khách có 1.000.000đ và nạp thêm 500.000đ
+    Sau giao dịch, hệ thống sẽ lưu
+    Type: DEPOSITE
+    Amount: 500.000d
+    balanceAfter: 1.500.000đ
+    Note: "Cash deposite"
+    */
     protected void addTransaction(TransactionType type, long amount, String note) {
-        // TODO: record transaction in the transactions list
+        Transaction transaction = new Transaction(type, amount, getBalance(), note);
+        transactions.add(transaction);
     }
+
+
 
     public long getBalance() {
         return balance;
