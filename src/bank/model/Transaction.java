@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Transaction {
     private String transactionId;
-    private static int nextId;
+    private static int nextId = 1;
     private TransactionType type;
     private long amount;
     private Date timestamp;
@@ -13,6 +13,7 @@ public class Transaction {
 
     public Transaction(TransactionType type, long amount, long balanceAfter, String note) {
         // TODO: generate transactionId using nextId
+        this.transactionId = String.format("TXN%03d", nextId);
         this.type = type;
         this.amount = amount;
         this.balanceAfter = balanceAfter;
