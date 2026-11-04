@@ -6,25 +6,42 @@ public class CheckingAccount extends Account {
 
     public CheckingAccount(String accountNumber, Customer owner, long initialDeposit, long overdraftLimit, long monthlyFee) {
         super(accountNumber, owner, initialDeposit);
+        if (overdraftLimit < 0 || monthlyFee < 0) {
+            throw new IllegalArgumentException("Invalid checking account parameters");
+        }
         this.overdraftLimit = overdraftLimit;
         this.monthlyFee = monthlyFee;
     }
 
+    // Trả về số dư tối thiểu
+    /*
+    Example: 
+    overdraftLimit: 50.000đ
+    ==> Trả về -50.000đ
+     */
     @Override
-    public long getMinAllowedBalance() {
-        // TODO: return -overdraftLimit
-        return 0;
+    public long getMinAllowedBalance() {   
+        return -overdraftLimit;
     }
 
+    // Tính phí hàng tháng
+    /*
+    Example: 
+    monthlyFee: 50.000đ
+    ==> Trả về -50.000đ
+     */
     @Override
     public long calculateMonthlyAdjustment() {
-        // TODO: return -monthly fee
-        return 0;
+        return -monthlyFee;
     }
 
+    // Trả về loại tài khoản
+    /*
+    Example: CheckingAccount
+    ==> Return "Checking"
+     */
     @Override
     public String getAccountType() {
-        // TODO: return account type name
-        return "";
+        return "Checking";
     }
 }
