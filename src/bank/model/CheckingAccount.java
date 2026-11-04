@@ -6,6 +6,9 @@ public class CheckingAccount extends Account {
 
     public CheckingAccount(String accountNumber, Customer owner, long initialDeposit, long overdraftLimit, long monthlyFee) {
         super(accountNumber, owner, initialDeposit);
+        if (overdraftLimit < 0 || monthlyFee < 0) {
+            throw new IllegalArgumentException("Invalid checking account parameters");
+        }
         this.overdraftLimit = overdraftLimit;
         this.monthlyFee = monthlyFee;
     }

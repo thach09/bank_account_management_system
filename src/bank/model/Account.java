@@ -12,6 +12,9 @@ public abstract class Account {
     private List<Transaction> transactions;
 
     public Account(String accountNumber, Customer owner, long initialDeposit) {
+        if (initialDeposit < 0) {
+            throw new IllegalArgumentException("Initial deposit cannot be negative");
+        }
         this.accountNumber = accountNumber;
         this.owner = owner;
         this.balance = initialDeposit;
@@ -27,9 +30,14 @@ public abstract class Account {
      */
     public void deposit(long amount, TransactionType type, String note) {
         validateAmount(amount);
-        balance += amount;
+        long newBalance;
+        try {
+            newBalance = Math.addExact(balance, amount);
+        } catch (ArithmeticException e) {
+            throw new IllegalArgumentException("Balance overflow");
+        }
+        balance = newBalance;
         addTransaction(type, amount, note);
-        
     }
 
     // Rút tiền khỏi tài khoản
@@ -41,10 +49,16 @@ public abstract class Account {
     */
     public void withdraw(long amount, TransactionType type, String note) {
         validateAmount(amount);
-        if (balance - amount < getMinAllowedBalance()) {
+        long newBalance;
+        try {
+            newBalance = Math.subtractExact(balance, amount);
+        } catch (ArithmeticException e) {
+            throw new IllegalArgumentException("Balance overflow");
+        }
+        if (newBalance < getMinAllowedBalance()) {
             throw new IllegalArgumentException("Insufficient funds");
         }
-        balance -= amount;
+        balance = newBalance;
         addTransaction(type, amount, note);
     }
 
@@ -57,21 +71,31 @@ public abstract class Account {
     // Cộng lãi hoặc trừ phí vào số dư tài khoản
     public void applyMonthlyAdjustment() {
         long adjustment = calculateMonthlyAdjustment();
+        if (adjustment == 0) {
+            return;
+        }
+        long newBalance;
+        try {
+            newBalance = Math.addExact(balance, adjustment);
+        } catch (ArithmeticException e) {
+            throw new IllegalArgumentException("Balance overflow");
+        }
+        if (newBalance < getMinAllowedBalance()) {
+            throw new IllegalArgumentException("Monthly fee exceeds allowed balance");
+        }
+        balance = newBalance;
         if (adjustment > 0) {
-            balance += adjustment;
             addTransaction(TransactionType.INTEREST, adjustment, "Monthly interest");
-
-        } else if (adjustment < 0) {
-            balance += adjustment;
-            addTransaction(TransactionType.FEE, - adjustment, "Monthly fee");
+        } else {
+            addTransaction(TransactionType.FEE, -adjustment, "Monthly fee");
         }
     }
 
     // Check số tiền giao dịch có hợp lệ hay không
-    // true if amount > 0, false otherwise
+    // Neu amount <= 0, method nem IllegalArgumentException; khong tra ve true/false.
     protected void validateAmount(long amount) {
         if (amount <= 0) {
-            throw new IllegalArgumentException("Invalid amount"); // 
+            throw new IllegalArgumentException("Invalid amount");
         }
     }
 
@@ -79,10 +103,10 @@ public abstract class Account {
     /*
     Example: Khách có 1.000.000đ và nạp thêm 500.000đ
     Sau giao dịch, hệ thống sẽ lưu
-    Type: DEPOSITE
+    Type: DEPOSIT
     Amount: 500.000d
     balanceAfter: 1.500.000đ
-    Note: "Cash deposite"
+    Note: "Cash deposit"
     */
     protected void addTransaction(TransactionType type, long amount, String note) {
         Transaction transaction = new Transaction(type, amount, getBalance(), note);

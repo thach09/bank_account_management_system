@@ -6,6 +6,9 @@ public class SavingsAccount extends Account {
 
     public SavingsAccount(String accountNumber, Customer owner, long initialDeposit, double interestRate, long minBalance) {
         super(accountNumber, owner, initialDeposit);
+        if (!Double.isFinite(interestRate) || interestRate < 0 || minBalance < 0) {
+            throw new IllegalArgumentException("Invalid savings account parameters");
+        }
         this.interestRate = interestRate;
         this.minBalance = minBalance;
     }
