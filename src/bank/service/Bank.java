@@ -98,7 +98,7 @@ public class Bank {
         }
         
         //for (Account account : customer.getCustomer(customerId).getAccount()){
-        return new ArrayList<Account>(getAccountsByCustomer(customerId));
+        return new ArrayList<Account>(customer.getAccounts());
         
         //return new ArrayList<Account>();
     }
