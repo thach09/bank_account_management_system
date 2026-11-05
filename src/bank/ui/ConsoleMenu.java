@@ -63,7 +63,7 @@ public class ConsoleMenu {
             } catch (NumberFormatException e) {
                 System.out.println("Please input a number in this field.");
             }
-        } while (con == true || choice == 0);
+        } while (con == true || choice != 0);
 
         // TODO: menu loop (do-while):
         // 1. displayMenu()

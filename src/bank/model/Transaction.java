@@ -13,7 +13,7 @@ public class Transaction {
 
     public Transaction(TransactionType type, long amount, long balanceAfter, String note) {
         // TODO: generate transactionId using nextId
-        this.transactionId = String.format("TXN%03d", nextId);
+        this.transactionId = String.format("TXN-%s-%03d", type, nextId);
         this.type = type;
         this.amount = amount;
         this.balanceAfter = balanceAfter;
