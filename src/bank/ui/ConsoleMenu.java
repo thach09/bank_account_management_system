@@ -56,13 +56,14 @@ public class ConsoleMenu {
                         bank.applyMonthlyAdjustments();
                         break;
                     case 8:
-                        System.out.println("Program Exit.");
+                        System.out.println("---- Sort Accounts by Balance ----");
+                        bank.getAccountsSortedByBalance();
                         break;
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Please input a number in this field.");
             }
-        } while (con == true || choice != 8);
+        } while (con == true || choice == 0);
 
         // TODO: menu loop (do-while):
         // 1. displayMenu()
@@ -80,6 +81,7 @@ public class ConsoleMenu {
         System.out.println("5. List all accounts by customer");
         System.out.println("6. View transactions history for an account");
         System.out.println("7. Apply a monthly interest / fee adjustment for each account category");
-        System.out.println("8. Exit");
+        System.out.println("8. Sort Accounts by Balance");
+        System.out.println("0. Exit");
     }
 }
