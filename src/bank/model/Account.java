@@ -17,6 +17,7 @@ public abstract class Account {
         ownerID = "";
         balance = 0;
         this.openDate = new Date();
+        this.transactions = new ArrayList<Transaction>();
     }
 
     public Account(String accountNumber, String ownerID, long initialDeposit) {
@@ -152,7 +153,7 @@ public abstract class Account {
         do {
             try {
                 System.out.print("Input balance: ");
-                long balance = Long.parseLong(scanner.nextLine().trim());
+                this.balance = Long.parseLong(scanner.nextLine().trim());
                 if (balance < 0) {
                     System.out.println("This field number must be greater than 0.");
                 } else

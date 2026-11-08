@@ -6,11 +6,12 @@ import bank.model.Customer;
 import bank.model.FixedDepositAccount;
 import bank.model.SavingsAccount;
 import bank.service.Bank;
-
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
 public class ConsoleMenu {
+
     private Bank bank;
     private Scanner scanner;
 
@@ -38,11 +39,11 @@ public class ConsoleMenu {
                         break;
                     case 2:
                         System.out.println("---- Deposit money into an account ---- ");
-                        bank.deposit(null, 0);
+                        displayDeposit();
                         break;
                     case 3:
                         System.out.println("---- Withdraw money ----");
-                        bank.withdraw(null, 0);
+                        displayWithdraw();
                         break;
                     case 4:
                         System.out.println("---- Transfer money between two accounts ----");
@@ -50,7 +51,7 @@ public class ConsoleMenu {
                         break;
                     case 5:
                         System.out.println("---- List all accounts by customer ----");
-                        bank.getAccountsByCustomer(null);
+                        displayAccountsByCustomer();
                         break;
                     case 6:
                         System.out.println("---- View transactions history for an account ----");
@@ -80,7 +81,7 @@ public class ConsoleMenu {
     }
 
     public void displayMenu() {
-        System.out.println("1. Open a new account");
+        System.out.println("\n1. Open a new account");
         System.out.println("2. Deposit money into an account");
         System.out.println("3. Withdraw money");
         System.out.println("4. Transfer money between two accounts");
@@ -88,7 +89,7 @@ public class ConsoleMenu {
         System.out.println("6. View transactions history for an account");
         System.out.println("7. Apply a monthly interest / fee adjustment for each account category");
         System.out.println("8. Sort Accounts by Balance");
-        System.out.println("0. Exit");
+        System.out.println("0. Exit\n");
     }
 
     public void displayOpenAccount() {
@@ -127,8 +128,9 @@ public class ConsoleMenu {
                                 customerId = scanner.nextLine().trim();
                                 if (customerId.equals("")) {
                                     System.out.println("This field can not be empty.");
-                                } else
+                                } else {
                                     cont = false;
+                                }
                             } catch (Exception e) {
                                 System.out.println("Please input this field again!!!");
                             }
@@ -154,8 +156,8 @@ public class ConsoleMenu {
     }
 
     public void displayCreateAccountByType(Customer customer) {
-        System.out.println("Create new Account for this " +
-                customer.getCustomerId() + " with 3 category accounts.");
+        System.out.println("Create new Account for this "
+                + customer.getCustomerId() + " with 3 category accounts.");
         int choice = 0;
         Account newAccount;
         do {
@@ -205,5 +207,108 @@ public class ConsoleMenu {
                 System.out.println("Please input a number in this field.");
             }
         } while (choice != 0);
+    }
+
+    private void displayAccountsByCustomer() {
+        System.out.print("Enter customer ID: ");
+        String customerId = scanner.nextLine().trim();
+
+        List<Account> accounts = bank.getAccountsByCustomer(customerId);
+
+        if (accounts == null || accounts.isEmpty()) {
+            System.out.println("No accounts found for customer ID: " + customerId);
+        } else {
+            System.out.println("Accounts of customer " + customerId + ":");
+
+            for (Account account : accounts) {
+                System.out.printf(
+                        "Account No: %s | Type: %s | Balance: %,d VND\n",
+                        account.getAccountNumber(),
+                        account.getAccountType(),
+                        account.getBalance()
+                );
+            }
+        }
+    }
+
+    // CASE 2: DEPOSIT
+    private void displayDeposit() {
+        System.out.print("Enter account number: ");
+        String accNum = scanner.nextLine().trim();
+
+        // Kiểm tra tài khoản có tồn tại không
+        if (bank.getAccount(accNum) == null) {
+            System.out.println(">> Account not found!");
+            return;
+        }
+
+        long amount = 0;
+
+        while (true) {
+            try {
+                System.out.print("Enter amount to deposit (VND): ");
+                amount = Long.parseLong(scanner.nextLine().trim());
+
+                if (amount > 0) {
+                    break;
+                }
+
+                System.out.println("Amount must be greater than 0.");
+
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number format! Please enter an integer amount.");
+            }
+        }
+
+        try {
+            bank.deposit(accNum, amount);
+            System.out.println(">> Deposit successfully! Amount: "
+                    + String.format("%,d", amount) + " VND");
+
+        } catch (Exception e) {
+            System.out.println(">> Deposit failed: " + e.getMessage());
+        }
+    }
+
+    // CASE 3: WITHDRAW
+    private void displayWithdraw() {
+        System.out.print("Enter account number: ");
+        String accNum = scanner.nextLine().trim();
+
+        // Check if account exists
+        if (bank.getAccount(accNum) == null) {
+            System.out.println(">> Account not found!");
+            return;
+        }
+
+        long amount = 0;
+
+        while (true) {
+            try {
+                System.out.print("Enter amount to withdraw (VND): ");
+                amount = Long.parseLong(scanner.nextLine().trim());
+
+                if (amount > 0) {
+                    break;
+                }
+
+                System.out.println("Amount must be greater than 0.");
+
+            } catch (NumberFormatException e) {
+                System.out.println(
+                        "Invalid number format! Please enter an integer amount."
+                );
+            }
+        }
+
+        try {
+            bank.withdraw(accNum, amount);
+
+            System.out.println(">> Withdrawal successfully! Amount: "
+                    + String.format("%,d", amount) + " VND");
+
+        } catch (Exception e) {
+            System.out.println(">> Withdrawal failed: " + e.getMessage());
+        }
     }
 }
