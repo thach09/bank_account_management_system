@@ -22,6 +22,14 @@ public class Bank {
         this.customers = new HashMap<String, Customer>();
     }
 
+    public Map<String, Customer> getCustomers() {
+        return customers;
+    }
+
+    public Map<String, Account> getAccounts() {
+        return accounts;
+    }
+
     public void addCustomer(Customer customer) {
         
         if (customer == null || customers.containsKey(customer.getCustomerId())){
@@ -33,14 +41,18 @@ public class Bank {
     public void openAccount(String customerID, Account account) {
         
         Customer customer = customers.get(customerID);
-        if (customer ==null || account ==null){
+        if (customer == null || account == null){
             return;
         }
-        if (account.getOwner() != customer || accounts.containsKey(account.getAccountNumber())){
+        if (account.getOwnerID() != customerID || accounts.containsKey(account.getAccountNumber())){
             return;
         }
         accounts.put(account.getAccountNumber(), account);
         customer.addAccount(account);
+    }
+
+    public Customer getCustomer(String customerId) {
+        return customers.get(customerId);
     }
 
     public Account getAccount(String accountNumber) {
@@ -111,5 +123,4 @@ public class Bank {
         sorted.sort(Comparator.comparingLong(Account::getBalance).reversed());
         return sorted;
     }
-
 }

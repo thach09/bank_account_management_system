@@ -2,6 +2,8 @@ package bank.model;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
 public class FixedDepositAccount extends Account {
     private int termMonths;
@@ -9,8 +11,12 @@ public class FixedDepositAccount extends Account {
     private Date maturityDate;
     private double earlyWithdrawalPenaltyRate;
 
-    public FixedDepositAccount(String accountNumber, Customer owner, long initialDeposit, int termMonths, double interestRate, double earlyWithdrawalPenaltyRate) {
-        super(accountNumber, owner, initialDeposit);
+    public FixedDepositAccount() {
+    }
+
+    public FixedDepositAccount(String accountNumber, String ownerID, long initialDeposit, 
+                                int termMonths, double interestRate, double earlyWithdrawalPenaltyRate) {
+        super(accountNumber, ownerID, initialDeposit);
         if (termMonths <= 0 || !Double.isFinite(interestRate) || interestRate < 0
                 || !Double.isFinite(earlyWithdrawalPenaltyRate) || earlyWithdrawalPenaltyRate < 0) {
             throw new IllegalArgumentException("Invalid fixed deposit parameters");
@@ -72,5 +78,52 @@ public class FixedDepositAccount extends Account {
 
     public boolean isMatured() {
         return !new Date().before(maturityDate);
+    }
+
+    @Override
+    public void inputInfo(List<Account> accounts, String customerId, int maxSize) {
+        super.inputInfo(accounts, customerId, maxSize);
+        Scanner scanner = new Scanner(System.in);
+        boolean cont = true;
+        do {
+            try {
+                System.out.print("Input Term months: ");
+                termMonths = Integer.parseInt(scanner.nextLine().trim());
+                if (termMonths < 0) {
+                    System.out.println("This field number must be greater than 0.");
+                } else cont = false;
+            } catch (Exception e) {
+                System.out.println("Please input this field again!!!");
+            }
+        } while (cont);
+
+        do {
+            try {
+                System.out.print("Input Monthly Fee: ");
+                interestRate = Double.parseDouble(scanner.nextLine().trim());
+                if (interestRate < 0) {
+                    System.out.println("This field number must be greater than 0.");
+                } else cont = false;
+            } catch (Exception e) {
+                System.out.println("Please input this field again!!!");
+            }
+        } while (cont);
+
+        do {
+            try {
+                System.out.print("Input Early Withdrawal Penalty Rate: ");
+                earlyWithdrawalPenaltyRate = Double.parseDouble(scanner.nextLine().trim());
+                if (earlyWithdrawalPenaltyRate < 0) {
+                    System.out.println("This field number must be greater than 0.");
+                } else cont = false;
+            } catch (Exception e) {
+                System.out.println("Please input this field again!!!");
+            }
+        } while (cont);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(super.getOpenDate());
+        calendar.add(Calendar.MONTH, termMonths);
+        this.maturityDate = calendar.getTime();
     }
 }

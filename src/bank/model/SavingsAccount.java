@@ -1,11 +1,17 @@
 package bank.model;
 
+import java.util.List;
+import java.util.Scanner;
+
 public class SavingsAccount extends Account {
     private double interestRate;
     private long minBalance;
 
-    public SavingsAccount(String accountNumber, Customer owner, long initialDeposit, double interestRate, long minBalance) {
-        super(accountNumber, owner, initialDeposit);
+    public SavingsAccount() {
+    }
+
+    public SavingsAccount(String accountNumber, String ownerID, long initialDeposit, double interestRate, long minBalance) {
+        super(accountNumber, ownerID, initialDeposit);
         if (!Double.isFinite(interestRate) || interestRate < 0 || minBalance < 0) {
             throw new IllegalArgumentException("Invalid savings account parameters");
         }
@@ -46,5 +52,35 @@ public class SavingsAccount extends Account {
     @Override
     public String getAccountType() {
         return "Savings";
+    }
+
+    @Override
+    public void inputInfo(List<Account> accounts, String customerId, int maxSize) {
+        super.inputInfo(accounts, customerId, maxSize);
+        Scanner scanner = new Scanner(System.in);
+        boolean cont = true;
+        do {
+            try {
+                System.out.print("Input Interest Rate: ");
+                interestRate = Long.parseLong(scanner.nextLine().trim());
+                if (interestRate < 0) {
+                    System.out.println("This field number must be greater than 0.");
+                } else cont = false;
+            } catch (Exception e) {
+                System.out.println("Please input this field again!!!");
+            }
+        } while (cont);
+
+        do {
+            try {
+                System.out.print("Input Minimum Balance: ");
+                minBalance = Long.parseLong(scanner.nextLine().trim());
+                if (minBalance < 0) {
+                    System.out.println("This field number must be greater than 0.");
+                } else cont = false;
+            } catch (Exception e) {
+                System.out.println("Please input this field again!!!");
+            }
+        } while (cont);
     }
 }
