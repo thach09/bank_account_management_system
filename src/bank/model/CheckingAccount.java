@@ -1,11 +1,17 @@
 package bank.model;
 
+import java.util.List;
+import java.util.Scanner;
+
 public class CheckingAccount extends Account {
     private long overdraftLimit;
     private long monthlyFee;
 
-    public CheckingAccount(String accountNumber, Customer owner, long initialDeposit, long overdraftLimit, long monthlyFee) {
-        super(accountNumber, owner, initialDeposit);
+    public CheckingAccount() {
+    }
+
+    public CheckingAccount(String accountNumber, String ownerID, long initialDeposit, long overdraftLimit, long monthlyFee) {
+        super(accountNumber, ownerID, initialDeposit);
         if (overdraftLimit < 0 || monthlyFee < 0) {
             throw new IllegalArgumentException("Invalid checking account parameters");
         }
@@ -43,5 +49,35 @@ public class CheckingAccount extends Account {
     @Override
     public String getAccountType() {
         return "Checking";
+    }
+
+    @Override
+    public void inputInfo(List<Account> accounts, String customerId, int maxSize) {
+        super.inputInfo(accounts, customerId, maxSize);
+        Scanner scanner = new Scanner(System.in);
+        boolean cont = true;
+        do {
+            try {
+                System.out.print("Input Overdraft limit: ");
+                overdraftLimit = Long.parseLong(scanner.nextLine().trim());
+                if (overdraftLimit < 0) {
+                    System.out.println("This field number must be greater than 0.");
+                } else cont = false;
+            } catch (Exception e) {
+                System.out.println("Please input this field again!!!");
+            }
+        } while (cont);
+
+        do {
+            try {
+                System.out.print("Input Monthly Fee: ");
+                monthlyFee = Long.parseLong(scanner.nextLine().trim());
+                if (monthlyFee < 0) {
+                    System.out.println("This field number must be greater than 0.");
+                } else cont = false;
+            } catch (Exception e) {
+                System.out.println("Please input this field again!!!");
+            }
+        } while (cont);
     }
 }

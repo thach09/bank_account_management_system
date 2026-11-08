@@ -2,7 +2,8 @@ package bank.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Customer {
     private String customerId;
@@ -10,6 +11,10 @@ public class Customer {
     private String phone;
     private String email;
     private List<Account> accounts;
+
+    public Customer() {
+        this.accounts = new ArrayList<>();
+    }
 
     public Customer(String customerId, String name, String phone, String email) {
         this.customerId = customerId;
@@ -49,7 +54,7 @@ public class Customer {
 
     public void addAccount(Account account) {
         // TODO: add account to customer's account list
-        if (account == null || accounts.contains(account)){
+        if (account == null || accounts.contains(account)) {
             return;
         }
         this.accounts.add(account);
@@ -57,8 +62,57 @@ public class Customer {
 
     public List<Account> getAccounts() {
 
-        //return accounts;
-        return Collections.unmodifiableList(accounts);
-        
+        // return accounts;
+        return accounts;
+
+    }
+
+    public void inputInfoCustomer(Map<String, Customer> customers) {
+        Scanner scanner = new Scanner(System.in);
+        boolean cont = true;
+        int count = 0;
+        if (customers.size() == 0 || customers == null) {
+            customerId = String.format("C%03d", ++count);
+            System.out.println("Auto generated ID: " + customerId);
+        } else {
+            customerId = String.format("C%03d", customers.size() + 1);
+            System.out.println("Auto generated ID: " + customerId );
+        }
+
+        do {
+            try {
+                System.out.print("Input customer name: ");
+                name = scanner.nextLine().trim();
+                if (name.equals("")) {
+                    System.out.println("This field can not be empty.");
+                } else cont = false;
+            } catch (Exception e) {
+                System.out.println("Please input this field again!!!");
+            }
+        } while (cont == true);
+
+        do {
+            try {
+                System.out.print("Input customer phone: ");
+                phone = scanner.nextLine().trim();
+                if (phone.equals("")) {
+                    System.out.println("This field can not be empty.");
+                } else cont = false;
+            } catch (Exception e) {
+                System.out.println("Please input this field again!!!");
+            }
+        } while (cont);
+
+        do {
+            try {
+                System.out.print("Input customer email: ");
+                email = scanner.nextLine().trim();
+                if (email.equals("")) {
+                    System.out.println("This field can not be empty.");
+                } else cont = false;
+            } catch (Exception e) {
+                System.out.println("Please input this field again!!!");
+            }
+        } while (cont);
     }
 }
