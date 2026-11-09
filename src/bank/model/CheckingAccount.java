@@ -68,6 +68,7 @@ public class CheckingAccount extends Account {
             }
         } while (cont);
 
+        cont = true;
         do {
             try {
                 System.out.print("Input Monthly Fee: ");
