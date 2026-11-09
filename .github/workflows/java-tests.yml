@@ -1,0 +1,23 @@
+name: PRO192 Java compile and tests
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '8'
+      - name: Compile project and tests
+        run: |
+          mkdir -p out
+          javac -encoding UTF-8 -d out $(find src -name '*.java') tests/BankIntegrationTest.java
+      - name: Run integration tests
+        run: java -cp out BankIntegrationTest
+      - name: Smoke test Main exit and TXT input
+        run: printf '0\n' | java -cp out bank.Main
