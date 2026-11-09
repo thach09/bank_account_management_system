@@ -89,7 +89,7 @@ public class FixedDepositAccount extends Account {
             try {
                 System.out.print("Input Term months: ");
                 termMonths = Integer.parseInt(scanner.nextLine().trim());
-                if (termMonths < 0) {
+                if (termMonths <= 0) {
                     System.out.println("This field number must be greater than 0.");
                 } else cont = false;
             } catch (Exception e) {
@@ -99,7 +99,7 @@ public class FixedDepositAccount extends Account {
 
         do {
             try {
-                System.out.print("Input Monthly Fee: ");
+                System.out.print("Input Annual Interest Rate: ");
                 interestRate = Double.parseDouble(scanner.nextLine().trim());
                 if (interestRate < 0) {
                     System.out.println("This field number must be greater than 0.");
