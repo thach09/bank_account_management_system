@@ -62,7 +62,7 @@ public class SavingsAccount extends Account {
         do {
             try {
                 System.out.print("Input Interest Rate: ");
-                interestRate = Long.parseLong(scanner.nextLine().trim());
+                interestRate = Double.parseDouble(scanner.nextLine().trim());
                 if (interestRate < 0) {
                     System.out.println("This field number must be greater than 0.");
                 } else cont = false;
