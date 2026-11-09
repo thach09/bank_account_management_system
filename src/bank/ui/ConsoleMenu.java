@@ -57,7 +57,7 @@ public class ConsoleMenu {
                         break;
                     case 6:
                         System.out.println("---- View transactions history for an account ----");
-                        // View transactions history
+                        displayTransactionByAccount();
                         break;
                     case 7:
                         System.out.println(
@@ -268,7 +268,6 @@ public class ConsoleMenu {
             bank.deposit(accNum, amount);
             System.out.println(">> Deposit successfully! Amount: "
                     + String.format("%,d", amount) + " VND");
-            bank.getAccount(accNum).addTransaction(TransactionType.DEPOSIT, amount, "Cash Deposit");
 
         } catch (Exception e) {
             System.out.println(">> Deposit failed: " + e.getMessage());
@@ -310,7 +309,6 @@ public class ConsoleMenu {
 
             System.out.println(">> Withdrawal successfully! Amount: "
                     + String.format("%,d", amount) + " VND");
-            bank.getAccount(accNum).addTransaction(TransactionType.WITHDRAW, amount, "Cash Withdraw");
 
         } catch (Exception e) {
             System.out.println(">> Withdrawal failed: " + e.getMessage());
@@ -338,6 +336,7 @@ public class ConsoleMenu {
 
         if (fromAccNum.equals(toAccNum)) {
             System.out.println("Cannot transfer to the same account!");
+            return;
         }
 
         long amount = 0;
@@ -347,12 +346,11 @@ public class ConsoleMenu {
             try {
                 System.out.print("Enter amount to transfer (VND): ");
                 amount = Long.parseLong(scanner.nextLine().trim());
-                if (amount < 0) {
-                    System.out.println("This field number must be greater than 0.");
-                } else if (amount > bank.getAccount(fromAccNum).getBalance()) {
-                    System.out.println("Insufficient balance!");
-                } else
+                if (amount <= 0) {
+                    System.out.println("Amount must be greater than 0.");
+                } else {
                     cont = false;
+                }
             } catch (Exception e) {
                 System.out.println("Please input this field again!!!");
             }
@@ -362,8 +360,7 @@ public class ConsoleMenu {
             bank.transfer(fromAccNum, toAccNum, amount);
             System.out.println("Transfer successfully! Amount: "
                     + String.format("%,d", amount) + " VND");
-            bank.getAccount(fromAccNum).addTransaction(TransactionType.TRANSFER_OUT, amount, "Cash Transfer Out");
-            bank.getAccount(toAccNum).addTransaction(TransactionType.TRANSFER_IN, amount, "Cash Transfer In");
+
 
         } catch (Exception e) {
             System.out.println("Transfer failed: " + e.getMessage());
