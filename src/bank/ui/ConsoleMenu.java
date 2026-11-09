@@ -62,7 +62,22 @@ public class ConsoleMenu {
                     case 7:
                         System.out.println(
                                 "---- Apply a monthly interest / fee adjustment for each account category ----");
+                        List<Account> allAccount = bank.getAllAccounts();
+                        if (allAccount.isEmpty()) {
+                            System.out.println("No accounts in the bank.");
+                            break;
+                        }
+                        long[] before = new long[allAccount.size()];
+                        for (int i = 0; i < allAccount.size(); i++) {
+                            before[i] = allAccount.get(i).getBalance();          
+                        }
                         bank.applyMonthlyAdjustments();
+                        for (int i = 0; i < allAccount.size(); i++) {
+                        Account account = allAccount.get(i);
+                        long change = account.getBalance() - before[i];    
+                        System.out.printf("%s | %s | Adjustment: %+,d VND | New balance: %,d VND%n",
+                            account.getAccountNumber(), account.getAccountType(), change, account.getBalance());
+                        }
                         break;
                     case 8:
                         System.out.println("---- Sort Accounts by Balance ----");
