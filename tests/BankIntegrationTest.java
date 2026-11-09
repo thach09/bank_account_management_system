@@ -100,6 +100,38 @@ public class BankIntegrationTest {
                 "Transaction IDs are unique");
         check(transactions.get(0).toString().contains("Balance After"),
                 "Transaction details are printable");
+        // End-to-end console flow for Cases 2, 3, 4, 5, and 6
+        final Bank uiBank = new Bank();
+        uiBank.addCustomer(new Customer("C010", "UI Sender", "000", "sender@example.com"));
+        uiBank.addCustomer(new Customer("C011", "UI Receiver", "001", "receiver@example.com"));
+        final CheckingAccount uiFrom = new CheckingAccount("ACC010", "C010", 500000L, 100000L, 10000L);
+        final SavingsAccount uiTo = new SavingsAccount("ACC011", "C011", 100000L, 0.06, 0L);
+        uiBank.openAccount("C010", uiFrom);
+        uiBank.openAccount("C011", uiTo);
+        String consoleOutput = capture(new Runnable() {
+            @Override public void run() {
+                InputStream oldIn = System.in;
+                try {
+                    String commands = "2\\nACC010\\n200000\\n"
+                            + "3\\nACC010\\n100000\\n"
+                            + "4\\nACC010\\nACC011\\n50000\\n"
+                            + "5\\nC010\\n"
+                            + "6\\nACC010\\n0\\n";
+                    System.setIn(new ByteArrayInputStream(commands.replace("\\n", "\n").getBytes()));
+                    new ConsoleMenu(uiBank).start();
+                } finally {
+                    System.setIn(oldIn);
+                }
+            }
+        });
+        check(uiFrom.getBalance() == 550000L && uiTo.getBalance() == 150000L,
+                "Console Cases 2/3/4: correct final balances");
+        check(uiFrom.getTransactions().size() == 3 && uiTo.getTransactions().size() == 1,
+                "Console Cases 2/3/4: no duplicate transaction records");
+        check(consoleOutput.contains("Accounts of customer C010")
+                && consoleOutput.contains("TRANSACTION HISTORY"),
+                "Console Cases 5/6: account list and history displayed");
+
         System.out.println("TOTAL PASS: " + passed);
     }
 }
