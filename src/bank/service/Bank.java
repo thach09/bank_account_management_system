@@ -7,6 +7,7 @@ import bank.model.TransactionType;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -110,7 +111,7 @@ public class Bank {
         }
         
         //for (Account account : customer.getCustomer(customerId).getAccount()){
-        return new ArrayList<Account>(customer.getAccounts());
+        return new ArrayList<>(customer.getAccounts());
         
         //return new ArrayList<Account>();
     }
@@ -121,6 +122,21 @@ public class Bank {
         List<Account> sorted = new ArrayList<>(accounts.values());
 
         sorted.sort(Comparator.comparingLong(Account::getBalance).reversed());
+        
+        accounts.clear();
+        for (Account account : sorted) {
+            accounts.put(account.getAccountNumber(), account);
+        }
+        for (Account account : accounts.values()) {
+            System.out.printf(
+                    "Account No: %s | Type: %s | Balance: %,d VND\n",
+                    account.getAccountNumber(),
+                    account.getAccountType(),
+                    account.getBalance()
+            );
+        }
         return sorted;
+
+        //return new ArrayList<>(sorted);
     }
 }
