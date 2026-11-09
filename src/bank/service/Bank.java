@@ -44,7 +44,7 @@ public class Bank {
         if (customer == null || account == null){
             return;
         }
-        if (account.getOwnerID() != customerID || accounts.containsKey(account.getAccountNumber())){
+        if (!account.getOwnerID().equals(customerID) || accounts.containsKey(account.getAccountNumber())){
             return;
         }
         accounts.put(account.getAccountNumber(), account);
@@ -122,11 +122,7 @@ public class Bank {
 
         sorted.sort(Comparator.comparingLong(Account::getBalance).reversed());
         
-        accounts.clear();
         for (Account account : sorted) {
-            accounts.put(account.getAccountNumber(), account);
-        }
-        for (Account account : accounts.values()) {
             System.out.printf(
                     "Account No: %s | Type: %s | Balance: %,d VND\n",
                     account.getAccountNumber(),
