@@ -1,11 +1,14 @@
 package bank.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Customer {
+public class Customer implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String customerId;
     private String name;
     private String phone;

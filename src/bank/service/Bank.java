@@ -4,13 +4,16 @@ import bank.model.Account;
 import bank.model.Customer;
 import bank.model.TransactionType;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Bank {
+public class Bank implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     private String bankName;
     private Map<String, Account> accounts;
     private Map<String, Customer> customers;

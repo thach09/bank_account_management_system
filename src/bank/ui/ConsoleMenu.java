@@ -6,7 +6,6 @@ import bank.model.Customer;
 import bank.model.FixedDepositAccount;
 import bank.model.SavingsAccount;
 import bank.model.Transaction;
-import bank.model.TransactionType;
 import bank.service.Bank;
 import java.util.List;
 import java.util.Map;
@@ -194,29 +193,30 @@ public class ConsoleMenu {
                         newAccount.inputInfo(customer.getAccounts(), customer.getCustomerId(),
                                 bank.getAccounts().size());
                         bank.openAccount(newAccount.getOwnerID(), newAccount);
-                        System.out.println("------------------------------");
-                        System.out.println(bank.getCustomers().size() + " - bank has number of customers");
-                        System.out.println(bank.getAccounts().size() + " - bank has number of accounts");
-                        System.out.println("------------------------------");
+                        System.out.println("\n------------------------------");
+                        System.out.println("Total customers: " + bank.getCustomers().size());
+                        System.out.println("Total accounts: " + bank.getAccounts().size());
+                        System.out.println("------------------------------\n");
                         break;
                     case 2:
                         newAccount = new FixedDepositAccount();
                         newAccount.inputInfo(customer.getAccounts(), customer.getCustomerId(),
                                 bank.getAccounts().size());
                         bank.openAccount(newAccount.getOwnerID(), newAccount);
-                        System.out.println("------------------------------");
-                        System.out.println(bank.getCustomers().size() + " - bank has number of customers");
-                        System.out.println(bank.getAccounts().size() + " - bank has number of accounts");
-                        System.out.println("------------------------------");
+                        System.out.println("\n------------------------------");
+                        System.out.println("Total customers: " + bank.getCustomers().size());
+                        System.out.println("Total accounts: " + bank.getAccounts().size());
+                        System.out.println("------------------------------\n");
                         break;
                     case 3:
                         newAccount = new SavingsAccount();
                         newAccount.inputInfo(customer.getAccounts(), customer.getCustomerId(),
                                 bank.getAccounts().size());
                         bank.openAccount(newAccount.getOwnerID(), newAccount);
-                        System.out.println(bank.getCustomers().size() + " - bank has number of customers");
-                        System.out.println(bank.getAccounts().size() + " - bank has number of accounts");
-                        System.out.println("------------------------------");
+                        System.out.println("\n------------------------------");
+                        System.out.println("Total customers: " + bank.getCustomers().size());
+                        System.out.println("Total accounts: " + bank.getAccounts().size());
+                        System.out.println("------------------------------\n");
                         break;
                     case 0:
                         System.out.println("Exit Create Customer.");

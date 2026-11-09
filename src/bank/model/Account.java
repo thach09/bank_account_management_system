@@ -1,11 +1,14 @@
 package bank.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-public abstract class Account {
+public abstract class Account implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     protected String accountNumber;
     protected long balance;
     protected Date openDate;

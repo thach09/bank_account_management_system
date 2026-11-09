@@ -14,8 +14,8 @@ public class FixedDepositAccount extends Account {
     public FixedDepositAccount() {
     }
 
-    public FixedDepositAccount(String accountNumber, String ownerID, long initialDeposit, 
-                                int termMonths, double interestRate, double earlyWithdrawalPenaltyRate) {
+    public FixedDepositAccount(String accountNumber, String ownerID, long initialDeposit,
+            int termMonths, double interestRate, double earlyWithdrawalPenaltyRate) {
         super(accountNumber, ownerID, initialDeposit);
         if (termMonths <= 0 || !Double.isFinite(interestRate) || interestRate < 0
                 || !Double.isFinite(earlyWithdrawalPenaltyRate) || earlyWithdrawalPenaltyRate < 0) {
@@ -91,7 +91,8 @@ public class FixedDepositAccount extends Account {
                 termMonths = Integer.parseInt(scanner.nextLine().trim());
                 if (termMonths <= 0) {
                     System.out.println("This field number must be greater than 0.");
-                } else cont = false;
+                } else
+                    cont = false;
             } catch (Exception e) {
                 System.out.println("Please input this field again!!!");
             }
@@ -103,7 +104,8 @@ public class FixedDepositAccount extends Account {
                 interestRate = Double.parseDouble(scanner.nextLine().trim());
                 if (interestRate < 0) {
                     System.out.println("This field number must be greater than 0.");
-                } else cont = false;
+                } else
+                    cont = false;
             } catch (Exception e) {
                 System.out.println("Please input this field again!!!");
             }
@@ -115,14 +117,38 @@ public class FixedDepositAccount extends Account {
                 earlyWithdrawalPenaltyRate = Double.parseDouble(scanner.nextLine().trim());
                 if (earlyWithdrawalPenaltyRate < 0) {
                     System.out.println("This field number must be greater than 0.");
-                } else cont = false;
+                } else
+                    cont = false;
             } catch (Exception e) {
                 System.out.println("Please input this field again!!!");
             }
         } while (cont);
 
+        // Allow simulated opening date for demonstration
+        int monthsAgo;
+
+        while (true) {
+            try {
+                System.out.print("Demo - Months since account opening (0 = today): ");
+                monthsAgo = Integer.parseInt(scanner.nextLine().trim());
+
+                if (monthsAgo >= 0) {
+                    break;
+                }
+
+                System.out.println("Months must be >= 0.");
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid integer.");
+            }
+        }
+
+        // Simulate the opening date
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(super.getOpenDate());
+        calendar.add(Calendar.MONTH, -monthsAgo);
+        this.openDate = calendar.getTime();
+
+        // Calculate maturity date
         calendar.add(Calendar.MONTH, termMonths);
         this.maturityDate = calendar.getTime();
     }
