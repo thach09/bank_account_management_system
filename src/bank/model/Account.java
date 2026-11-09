@@ -118,7 +118,7 @@ public abstract class Account {
      * balanceAfter: 1.500.000đ
      * Note: "Cash deposit"
      */
-    protected void addTransaction(TransactionType type, long amount, String note) {
+    public void addTransaction(TransactionType type, long amount, String note) {
         Transaction transaction = new Transaction(type, amount, getBalance(), note);
         transactions.add(transaction);
     }
