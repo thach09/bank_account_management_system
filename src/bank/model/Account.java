@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public abstract class Account {
-    private String accountNumber;
-    private long balance;
-    private Date openDate;
-    private String ownerID;
-    private List<Transaction> transactions;
+    protected String accountNumber;
+    protected long balance;
+    protected Date openDate;
+    protected String ownerID;
+    protected List<Transaction> transactions;
 
     public Account() {
         accountNumber = "";
