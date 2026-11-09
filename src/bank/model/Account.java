@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public abstract class Account {
-    private String accountNumber;
-    private long balance;
-    private Date openDate;
-    private String ownerID;
-    private List<Transaction> transactions;
+    protected String accountNumber;
+    protected long balance;
+    protected Date openDate;
+    protected String ownerID;
+    protected List<Transaction> transactions;
 
     public Account() {
         accountNumber = "";
@@ -118,7 +118,7 @@ public abstract class Account {
      * balanceAfter: 1.500.000đ
      * Note: "Cash deposit"
      */
-    protected void addTransaction(TransactionType type, long amount, String note) {
+    public void addTransaction(TransactionType type, long amount, String note) {
         Transaction transaction = new Transaction(type, amount, getBalance(), note);
         transactions.add(transaction);
     }

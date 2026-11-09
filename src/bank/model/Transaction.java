@@ -12,8 +12,7 @@ public class Transaction {
     private String note;
 
     public Transaction(TransactionType type, long amount, long balanceAfter, String note) {
-        // TODO: generate transactionId using nextId
-        this.transactionId = String.format("TXN-%s-%03d", type, nextId);
+        this.transactionId = String.format("TXN-%03d-%s", nextId++, type);
         this.type = type;
         this.amount = amount;
         this.balanceAfter = balanceAfter;
@@ -47,7 +46,18 @@ public class Transaction {
 
     @Override
     public String toString() {
-        // TODO: format transaction details
-        return "";
+        return String.format(
+                "Transaction ID: %s%n" +
+                "Transaction Type: %s%n" +
+                "Amount: %,d VND%n" +
+                "Timestamp: %s%n" +
+                "Balance After: %,d VND%n" +
+                "Note: %s",
+                transactionId,
+                type,
+                amount,
+                timestamp,
+                balanceAfter,
+                note);
     }
 }

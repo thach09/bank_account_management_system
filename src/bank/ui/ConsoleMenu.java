@@ -5,6 +5,8 @@ import bank.model.CheckingAccount;
 import bank.model.Customer;
 import bank.model.FixedDepositAccount;
 import bank.model.SavingsAccount;
+import bank.model.Transaction;
+import bank.model.TransactionType;
 import bank.service.Bank;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +49,7 @@ public class ConsoleMenu {
                         break;
                     case 4:
                         System.out.println("---- Transfer money between two accounts ----");
-                        bank.transfer(null, null, 0);
+                        displayTransfer();
                         break;
                     case 5:
                         System.out.println("---- List all accounts by customer ----");
@@ -174,7 +176,8 @@ public class ConsoleMenu {
                 switch (choice) {
                     case 1:
                         newAccount = new CheckingAccount();
-                        newAccount.inputInfo(customer.getAccounts(), customer.getCustomerId(), bank.getAccounts().size());
+                        newAccount.inputInfo(customer.getAccounts(), customer.getCustomerId(),
+                                bank.getAccounts().size());
                         bank.openAccount(newAccount.getOwnerID(), newAccount);
                         System.out.println("------------------------------");
                         System.out.println(bank.getCustomers().size() + " - bank has number of customers");
@@ -183,7 +186,8 @@ public class ConsoleMenu {
                         break;
                     case 2:
                         newAccount = new FixedDepositAccount();
-                        newAccount.inputInfo(customer.getAccounts(), customer.getCustomerId(), bank.getAccounts().size());
+                        newAccount.inputInfo(customer.getAccounts(), customer.getCustomerId(),
+                                bank.getAccounts().size());
                         bank.openAccount(newAccount.getOwnerID(), newAccount);
                         System.out.println("------------------------------");
                         System.out.println(bank.getCustomers().size() + " - bank has number of customers");
@@ -192,7 +196,8 @@ public class ConsoleMenu {
                         break;
                     case 3:
                         newAccount = new SavingsAccount();
-                        newAccount.inputInfo(customer.getAccounts(), customer.getCustomerId(), bank.getAccounts().size());
+                        newAccount.inputInfo(customer.getAccounts(), customer.getCustomerId(),
+                                bank.getAccounts().size());
                         bank.openAccount(newAccount.getOwnerID(), newAccount);
                         System.out.println(bank.getCustomers().size() + " - bank has number of customers");
                         System.out.println(bank.getAccounts().size() + " - bank has number of accounts");
@@ -225,8 +230,7 @@ public class ConsoleMenu {
                         "Account No: %s | Type: %s | Balance: %,d VND\n",
                         account.getAccountNumber(),
                         account.getAccountType(),
-                        account.getBalance()
-                );
+                        account.getBalance());
             }
         }
     }
@@ -264,6 +268,7 @@ public class ConsoleMenu {
             bank.deposit(accNum, amount);
             System.out.println(">> Deposit successfully! Amount: "
                     + String.format("%,d", amount) + " VND");
+            bank.getAccount(accNum).addTransaction(TransactionType.DEPOSIT, amount, "Cash Deposit");
 
         } catch (Exception e) {
             System.out.println(">> Deposit failed: " + e.getMessage());
@@ -296,8 +301,7 @@ public class ConsoleMenu {
 
             } catch (NumberFormatException e) {
                 System.out.println(
-                        "Invalid number format! Please enter an integer amount."
-                );
+                        "Invalid number format! Please enter an integer amount.");
             }
         }
 
@@ -306,9 +310,94 @@ public class ConsoleMenu {
 
             System.out.println(">> Withdrawal successfully! Amount: "
                     + String.format("%,d", amount) + " VND");
+            bank.getAccount(accNum).addTransaction(TransactionType.WITHDRAW, amount, "Cash Withdraw");
 
         } catch (Exception e) {
             System.out.println(">> Withdrawal failed: " + e.getMessage());
         }
     }
+
+    public void displayTransfer() {
+        System.out.print("Enter source account number (From account): ");
+        String fromAccNum = scanner.nextLine().trim();
+
+        // Check if account exists
+        if (bank.getAccount(fromAccNum) == null) {
+            System.out.println("Source account (From account) not found!");
+            return;
+        }
+
+        System.out.print("Enter destination account number (To account): ");
+        String toAccNum = scanner.nextLine().trim();
+
+        // Check if account exists
+        if (bank.getAccount(toAccNum) == null) {
+            System.out.println("Destination account (To account) not found!");
+            return;
+        }
+
+        if (fromAccNum.equals(toAccNum)) {
+            System.out.println("Cannot transfer to the same account!");
+        }
+
+        long amount = 0;
+        boolean cont = true;
+
+        do {
+            try {
+                System.out.print("Enter amount to transfer (VND): ");
+                amount = Long.parseLong(scanner.nextLine().trim());
+                if (amount < 0) {
+                    System.out.println("This field number must be greater than 0.");
+                } else if (amount > bank.getAccount(fromAccNum).getBalance()) {
+                    System.out.println("Insufficient balance!");
+                } else
+                    cont = false;
+            } catch (Exception e) {
+                System.out.println("Please input this field again!!!");
+            }
+        } while (cont == true);
+
+        try {
+            bank.transfer(fromAccNum, toAccNum, amount);
+            System.out.println("Transfer successfully! Amount: "
+                    + String.format("%,d", amount) + " VND");
+            bank.getAccount(fromAccNum).addTransaction(TransactionType.TRANSFER_OUT, amount, "Cash Transfer Out");
+            bank.getAccount(toAccNum).addTransaction(TransactionType.TRANSFER_IN, amount, "Cash Transfer In");
+
+        } catch (Exception e) {
+            System.out.println("Transfer failed: " + e.getMessage());
+        }
+    }
+
+    public void displayTransactionByAccount() {
+        System.out.print("Enter account number: ");
+        String accNum = scanner.nextLine().trim();
+        if (accNum.equals("")) {
+            System.out.println("Input field can not be empty.");
+            return;
+        }
+        Account acc = bank.getAccount(accNum);
+
+        // Check if account exists
+        if (acc == null) {
+            System.out.println("Account number not found!");
+            return;
+        }
+
+        List<Transaction> transactions = acc.getTransactions();
+
+        if (acc.getTransactions().isEmpty()) {
+            System.out.println("No transaction history available!");
+            return;
+        }
+
+        System.out.println("\n---- TRANSACTION HISTORY ----");
+
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction);
+            System.out.println("-----------------------------------------");
+        }
+    }
+
 }
