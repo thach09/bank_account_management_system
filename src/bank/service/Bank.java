@@ -51,6 +51,10 @@ public class Bank {
         customer.addAccount(account);
     }
 
+    public List<Account> getAllAccounts() {
+        return new ArrayList<>(accounts.values());
+    }
+
     public Customer getCustomer(String customerId) {
         return customers.get(customerId);
     }
