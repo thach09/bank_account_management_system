@@ -146,6 +146,9 @@ public abstract class Account implements Serializable {
         return transactions;
     }
 
+    // Tự tạo ID tài khoản theo định dạng ACCxxx, trong đó xxx là số thứ tự tăng dần
+    // Example: Nếu trong hệ thống đã có 2 tài khoản, khi tạo tài khoản mới, hệ thống sẽ tự động gán ID là ACC003     
+    
     public void inputInfo(List<Account> accounts, String customerId, int maxSize) {
         Scanner scanner = new Scanner(System.in);
         boolean cont = true;

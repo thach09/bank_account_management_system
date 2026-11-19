@@ -351,7 +351,7 @@ public class ConsoleMenu {
 
         if (fromAccNum.equals(toAccNum)) {
             System.out.println("Cannot transfer to the same account!");
-            return;
+            return; 
         }
 
         long amount = 0;

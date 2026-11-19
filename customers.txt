@@ -1,1 +1,2 @@
-Customer ID: C001 | Name: Do Thiet Thach | Phone: 0354314095 | Email: thietthachdo@gmail.com
+Customer ID: C002 | Name: Nguyen Van A | Phone: 1234567890 | Email: nguyen@gmail.com
+Customer ID: C001 | Name: Do Thiet Thach | Phone: 0123456789 | Email: thiethachdo@gmail.com
